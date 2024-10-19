@@ -1,11 +1,17 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class MooreNoise : MonoBehaviour
 {
+    [SerializeField] int iteration;
+    [SerializeField] int mapSize;
+    [SerializeField] int mooreRadius;
+    [SerializeField] int cellsAliveN;
+    
     void Awake()
     {
-        MooreNoiseMap(24, 2, 13);
+        MooreNoiseGenerator(iteration, mapSize, mooreRadius,cellsAliveN);
     }
     public static int[,] MooreNoiseMap(int n, int r, int N)
     {
@@ -42,10 +48,25 @@ public class MooreNoise : MonoBehaviour
                 else 
                     v[i,j] = 0;
                 b = 0;
-                
-                Debug.Log(v[i,j]);
             }
         }
         return v;
+    }
+
+    int[,] MooreNoiseGenerator(int iterations, int gridSize, int radius, int cellsLiveCount)
+    {
+        int[,] map = new int[gridSize+1,gridSize+1];
+        for (int k = 1; k <= iterations; k++)
+        {
+            var buffer = MooreNoiseMap(gridSize, radius, cellsLiveCount);
+            
+            for (int l = 0; l <= gridSize; l++)
+                for (int m = 0; m <= gridSize; m++)
+                    map[l, m] += buffer[l, m];
+        }
+        for (int l = 0; l <= gridSize; l++)
+            for (int m = 0; m <= gridSize; m++)
+                Mathf.Floor(map[l, m]);
+        return map;
     }
 }

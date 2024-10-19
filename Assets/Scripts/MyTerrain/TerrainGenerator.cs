@@ -26,6 +26,7 @@ namespace MyTerrain
             _meshCollider = GetComponent<MeshCollider>();
             
             ContiguousProceduralGrid();
+            ContiguousProceduralGrid();
             CreateMesh();
             
             _meshCollider.sharedMesh = _mesh;
