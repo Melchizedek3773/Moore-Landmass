@@ -7,9 +7,9 @@ public class MooreTerrainGenerator : MonoBehaviour
     [SerializeField] int gridSize;
     
     [SerializeField] int iteration;
-    [SerializeField] int mapSize;
     [SerializeField] int mooreRadius;
     [SerializeField] int cellsAliveN;
+    [SerializeField] int hMax;
     
     private Vector3[] _vertices;
     private int[] _triangles;
@@ -23,7 +23,6 @@ public class MooreTerrainGenerator : MonoBehaviour
         _mesh.name = "Terrain";
         _meshCollider = GetComponent<MeshCollider>();
             
-        ContiguousProceduralGrid();
         ContiguousProceduralGrid();
         CreateMesh();
             
@@ -47,12 +46,13 @@ public class MooreTerrainGenerator : MonoBehaviour
         int v = 0;
         int t = 0;
 
+        var MooreNoiseMap = MooreNoise.MooreNoiseGenerator(iteration, gridSize, mooreRadius, cellsAliveN, hMax);
         // Вершины
         for (int x = 0; x <= gridSize; x++)
         {
             for (int y = 0; y <= gridSize; y++)
             {
-                _vertices[v] = new Vector3(x*cellSize - vertexOffset, 0, y*cellSize - vertexOffset);
+                _vertices[v] = new Vector3(x*cellSize - vertexOffset, MooreNoiseMap[v], y*cellSize - vertexOffset);
                 v++;
             }
         }

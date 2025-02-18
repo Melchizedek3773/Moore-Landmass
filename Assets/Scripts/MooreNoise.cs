@@ -2,16 +2,21 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+
+// Надо бы перевести все массивы на булеаны (тру, фолс), как это сделал Степан в 2 уроке для решета Эратосфена
+// P.S.: Тогда не придётся думать о конвертировании интов в флоаты или апроксимации флоатов между собой. If(t)->v+=1;
+
 public class MooreNoise : MonoBehaviour
 {
     [SerializeField] int iteration;
     [SerializeField] int mapSize;
     [SerializeField] int mooreRadius;
     [SerializeField] int cellsAliveN;
+    [SerializeField] int hMax;
     
     void Awake()
     {
-        MooreNoiseGenerator(iteration, mapSize, mooreRadius,cellsAliveN);
+        MooreNoiseGenerator(iteration, mapSize, mooreRadius,cellsAliveN, hMax);
     }
     public static int[,] MooreNoiseMap(int n, int r, int N)
     {
@@ -53,20 +58,34 @@ public class MooreNoise : MonoBehaviour
         return v;
     }
 
-    int[,] MooreNoiseGenerator(int iterations, int gridSize, int radius, int cellsLiveCount)
+    public static float[] MooreNoiseGenerator(int iterations, int gridSize, int radius, int cellsLiveCount, int hMax)
     {
-        int[,] map = new int[gridSize+1,gridSize+1];
+        float[] map = new float[(gridSize+2) * (gridSize+2)];
+        int v = 0;
         for (int k = 1; k <= iterations; k++)
         {
             var buffer = MooreNoiseMap(gridSize, radius, cellsLiveCount);
             
             for (int l = 0; l <= gridSize; l++)
                 for (int m = 0; m <= gridSize; m++)
-                    map[l, m] += buffer[l, m];
+                    map[v++] += buffer[l, m];
+            
+            v = 0;
         }
-        for (int l = 0; l <= gridSize; l++)
-            for (int m = 0; m <= gridSize; m++)
-                Mathf.Floor(map[l, m]);
+
+        float h = 0;
+        for (int l = 0; l <= (gridSize + 1) * (gridSize + 1); l++)
+        {
+            if (h < map[l])
+                h = map[l];
+            Mathf.Floor(map[l]);
+        }
+
+        h = h/100 * hMax;
+        for (int k = 0; k <= (gridSize + 1) * (gridSize + 1); k++)
+            if (map[k] > h)
+                map[k] = h;
+        
         return map;
     }
 }
