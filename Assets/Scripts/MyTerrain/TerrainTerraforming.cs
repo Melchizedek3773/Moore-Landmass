@@ -7,8 +7,8 @@ namespace MyTerrain
     public class TerrainTerraforming : MonoBehaviour
     {
         [SerializeField] Camera cam; 
-        [SerializeField] float terraformingEffeciency = 0.01f;
-        [SerializeField] float terraformingRadius = 0.5f;
+        [SerializeField] float terraformingEffeciency;
+        [SerializeField] float terraformingRadius;
         
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
@@ -47,8 +47,8 @@ namespace MyTerrain
             {
                 if (Vector2.Distance( new Vector2(vert.x, vert.z), new Vector2(pos.x, pos.z)) <= range )
                 {
-                    if (vert.y > 2)
-                        return;
+                    //if (vert.y > 2)
+                        //return;
                     
                     // Center
                     if (a % 2 != 0)
@@ -95,8 +95,8 @@ namespace MyTerrain
             {
                 if (Vector2.Distance( new Vector2(vert.x, vert.z), new Vector2(pos.x, pos.z)) <= range )
                 {
-                    if (vert.y < -2)
-                        return;
+                    //if (vert.y < -2)
+                        //return;
                     
                     // Center
                     if (a % 2 != 0)

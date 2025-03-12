@@ -81,10 +81,9 @@ public class MooreNoise : MonoBehaviour
             Mathf.Floor(map[l]);
         }
 
-        h = h/100 * hMax;
+        h = (h/10000) * hMax;
         for (int k = 0; k <= (gridSize + 1) * (gridSize + 1); k++)
-            if (map[k] > h)
-                map[k] = h;
+            map[k] /= h;
         
         return map;
     }
