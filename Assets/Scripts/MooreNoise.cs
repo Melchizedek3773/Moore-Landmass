@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
 // Надо бы перевести все массивы на булеаны (тру, фолс), как это сделал Степан в 2 уроке для решета Эратосфена
 // P.S.: Тогда не придётся думать о конвертировании интов в флоаты или апроксимации флоатов между собой. If(t)->v+=1;
+// F моей идее, т.к. это не c++.
 
 public class MooreNoise : MonoBehaviour
 {
@@ -55,6 +55,22 @@ public class MooreNoise : MonoBehaviour
                 b = 0;
             }
         }
+        for (int x = 0; x < r; x++)
+            for (int y = 0; y < n+1; y++)
+                v[x, y] = 0;
+            
+        for (int x = n+1-r; x < n+1; x++)
+            for (int y = 0; y < n+1; y++)
+                v[x, y] = 0;
+        
+        for (int x = 0; x < r; x++)
+            for (int y = 0; y < n+1; y++)
+                v[y, x] = 0;
+            
+        for (int x = n+1-r; x < n+1; x++)
+            for (int y = 0; y < n+1; y++)
+                v[y, x] = 0;
+        
         return v;
     }
 
@@ -78,12 +94,13 @@ public class MooreNoise : MonoBehaviour
         {
             if (h < map[l])
                 h = map[l];
-            Mathf.Floor(map[l]);
+            map[l] = Mathf.Floor(map[l]);
         }
 
-        h = (h/10000) * hMax;
+        h = h/10000 * hMax;
         for (int k = 0; k <= (gridSize + 1) * (gridSize + 1); k++)
             map[k] /= h;
+
         
         return map;
     }

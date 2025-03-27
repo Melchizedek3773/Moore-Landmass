@@ -46,13 +46,13 @@ public class MooreTerrainGenerator : MonoBehaviour
         int v = 0;
         int t = 0;
 
-        var MooreNoiseMap = MooreNoise.MooreNoiseGenerator(iteration, gridSize, mooreRadius, cellsAliveN, hMax);
+        var mooreNoiseMap = MooreNoise.MooreNoiseGenerator(iteration, gridSize, mooreRadius, cellsAliveN, hMax);
         // Вершины
         for (int x = 0; x <= gridSize; x++)
         {
             for (int y = 0; y <= gridSize; y++)
             {
-                _vertices[v] = new Vector3(x*cellSize - vertexOffset, MooreNoiseMap[v], y*cellSize - vertexOffset);
+                _vertices[v] = new Vector3(x*cellSize - vertexOffset, mooreNoiseMap[v], y*cellSize - vertexOffset);
                 v++;
             }
         }
