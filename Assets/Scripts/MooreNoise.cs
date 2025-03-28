@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,18 +23,9 @@ public class MooreNoise : MonoBehaviour
     {
         int[,] v = new int[n+1,n+1];
         
-        int d;
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 1; j < n; j++)
-            {
-                if (Random.Range(0, 100) >= 50)
-                    d = 1;
-                else d = 0;
-
-                v[i,j] = d;
-            }
-        }
+        for (int i = r; i < n-r; i++)
+            for (int j = r; j < n-r; j++)
+                v[i, j] = Random.Range(0, 100) >= 50 ? 1 : 0;
         
         int b = 0;
         for (int i = r; i <= n-r; i++)
@@ -55,21 +47,6 @@ public class MooreNoise : MonoBehaviour
                 b = 0;
             }
         }
-        for (int x = 0; x < r; x++)
-            for (int y = 0; y < n+1; y++)
-                v[x, y] = 0;
-            
-        for (int x = n+1-r; x < n+1; x++)
-            for (int y = 0; y < n+1; y++)
-                v[x, y] = 0;
-        
-        for (int x = 0; x < r; x++)
-            for (int y = 0; y < n+1; y++)
-                v[y, x] = 0;
-            
-        for (int x = n+1-r; x < n+1; x++)
-            for (int y = 0; y < n+1; y++)
-                v[y, x] = 0;
         
         return v;
     }

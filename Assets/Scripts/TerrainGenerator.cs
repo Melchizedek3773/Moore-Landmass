@@ -64,25 +64,14 @@ public class MooreTerrainGenerator : MonoBehaviour
             for (int x = 0; x < gridSize; x++)
             {
                 // Четный квадрат
-                if ((x + y) % 2 == 0)
-                {
+                
                     _triangles[t] = v;
                     _triangles[t + 1] = v + 1;
                     _triangles[t + 2] = v + gridSize + 1;
                     _triangles[t + 3] = v + gridSize + 1;
                     _triangles[t + 4] = v + 1;
                     _triangles[t + 5] = v + gridSize + 2;
-                }
-                // Нечётный квадрат
-                else
-                {
-                    _triangles[t] = v + gridSize + 1;
-                    _triangles[t + 1] = v;
-                    _triangles[t + 2] = v + gridSize + 2;
-                    _triangles[t + 3] = v + gridSize + 2;
-                    _triangles[t + 4] = v;
-                    _triangles[t + 5] = v + 1;
-                }
+                
 
                 v++;
                 t += 6;
